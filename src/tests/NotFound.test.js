@@ -1,6 +1,5 @@
 import React from 'react';
-import { getByRole, getByTestId, getByText, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, getByRole } from '@testing-library/react';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 
