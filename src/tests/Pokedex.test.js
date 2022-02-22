@@ -9,6 +9,9 @@ describe('testing the Pokedex component...', () => {
   // so I don't repeat the literal string as much as before
   const proxPokemon = 'Próximo pokémon';
   const pokemonTestIdName = 'pokemon-name';
+  // function to get the filtered array of pokemons
+  const getFilteredPokemons = (typeChosen) => pokemons
+    .filter(({ type }) => type === typeChosen);
 
   it('tests if has a heading with "Encountered pokémons"', () => {
     renderWithRouter(<App />);
@@ -64,9 +67,6 @@ describe('testing the Pokedex component...', () => {
     const typeBtnsAmmount = typeArr.length;
     expect(typeBtns).toHaveLength(typeBtnsAmmount);
     // checking the type btn behavior
-    // function to get the filtered array of pokemons
-    const getFilteredPokemons = (typeChosen) => pokemons
-      .filter(({ type }) => type === typeChosen);
     // now it got somewhat interesting
     // I'll go through every filtered list...
     typeArr.forEach((typeDesired) => {
@@ -97,7 +97,7 @@ describe('testing the Pokedex component...', () => {
     // to be honest, I`ve already tested that before, dunno if can be delivered (the project) like that
     // but don't wanna bother any instructor so... let's do one more boring test
     const { history } = renderWithRouter(<App />);
-    // just to test it out the last requiremente of the requisite
+    // just to test it out the last requirement of the requisite
     history.push('/');
     // setting up the env
     // maybe I should've used the beforeEach function in this project... just reminded the existence rn
@@ -105,13 +105,24 @@ describe('testing the Pokedex component...', () => {
     const nxtBtn = screen.getByRole('button', { name: proxPokemon });
     expect(AllBtn).toBeInTheDocument();
 
-    // checking if there's no fiter selected
-    pokemons.forEach(({ name }) => {
-      const curNameDisplayed = screen.getByTestId(pokemonTestIdName);
-      expect(curNameDisplayed.innerHTML).toBe(name);
-      // ...
-      userEvent.click(nxtBtn);
-    });
+    // function that will run the whole user behavior for each list of pokemons
+    const testListOfPokemons = (arr) => {
+      arr.forEach(({ name }) => {
+        const curNameDisplayed = screen.getByTestId(pokemonTestIdName);
+        expect(curNameDisplayed.innerHTML).toBe(name);
+        // ...
+        userEvent.click(nxtBtn);
+      });
+    };
+    // --------------------------------- //
+    // checks if keeps working after using a filter (Fire)
+    const fireBtn = screen.getByRole('button', { name: 'Fire' });
+    userEvent.click(fireBtn);
+    const firePokemons = getFilteredPokemons('Fire');
+    testListOfPokemons(firePokemons);
+    // checks the All button (referred as "reset" by the README)
+    userEvent.click(AllBtn);
+    testListOfPokemons(pokemons);
   });
 });
 // overall, I guess can be refactored, but I wanna study some math
