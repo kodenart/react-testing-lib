@@ -5,6 +5,8 @@ import Pokemon from '../components/Pokemon';
 import renderWithRouter from '../renderWithRouter';
 import pokemons from '../data';
 
+// I was struggling to do a loop for every pokemon on the array pokemons...
+// So I peeked at a colleague's project and realised that wasn't necessary and did this way instead.
 describe('Testing the Pokemon component', () => {
   // isFavorite is to set the pokemon unit as a favorite one
   it('tests the Pokemon component, checks the contents of it', () => {
@@ -14,19 +16,19 @@ describe('Testing the Pokemon component', () => {
     const { value, measurementUnit } = averageWeight;
 
     // to prevent repetitions
-    const dataTestIdName = screen.getAllByTestId('pokemon-name');
-    const dataTestIdType = screen.getAllByTestId('pokemon-type');
-    const datatestIdAvarageWeight = screen.getAllByTestId('pokemon-weight');
+    const testIdName = screen.getAllByTestId('pokemon-name');
+    const testIdType = screen.getAllByTestId('pokemon-type');
+    const testIdAvgWeight = screen.getAllByTestId('pokemon-weight');
 
     // grabs the sprite
     const img = screen.getByRole('img', { name: `${name} sprite` });
 
     // checks the name of the pokemon being displayed
-    expect(dataTestIdName[0].textContent).toBe(name);
+    expect(testIdName[0].textContent).toBe(name);
     // checks the type of the pokemon being displayed
-    expect(dataTestIdType[0].textContent).toBe(type);
+    expect(testIdType[0].textContent).toBe(type);
     // checks the weight
-    expect(datatestIdAvarageWeight[0].textContent).toBe(
+    expect(testIdAvgWeight[0].textContent).toBe(
       `Average weight: ${value} ${measurementUnit}`,
     );
     // img...
